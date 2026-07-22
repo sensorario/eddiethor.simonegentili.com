@@ -1,0 +1,260 @@
+/* ============================================================
+   Design tokens — same pastel/blue palette as quadrato.simonegentili.com,
+   so the two apps read as part of the same family.
+   ============================================================ */
+:root {
+    --unit: 8px;
+    --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+    --color-bg: #eef3fd;
+    --color-surface: #ffffff;
+    --color-surface-alt: #f3f7ff;
+
+    --color-primary: #6f9cf7;
+    --color-primary-strong: #5480e6;
+    --color-primary-soft: #dbe8ff;
+    --color-mint: #2f9e6e;
+    --color-coral: #e2596a;
+
+    --color-ink: #33415c;
+    --color-ink-muted: #7c8aa8;
+    --color-border: #dbe6fb;
+
+    --radius-s: 10px;
+    --radius-m: 16px;
+    --radius-l: 24px;
+    --radius-pill: 999px;
+
+    --shadow-1: 0 1px 2px rgba(84, 128, 230, 0.12), 0 1px 3px rgba(84, 128, 230, 0.10);
+    --shadow-2: 0 4px 10px rgba(84, 128, 230, 0.16);
+
+    --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-family);
+    background: var(--color-bg);
+    color: var(--color-ink);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* sg-components QuadratoHeader is sticky by default; static here keeps it
+   in flow above the app content instead of overlapping on scroll. */
+.app-container > .header {
+    position: static;
+}
+
+.app-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: var(--unit) auto;
+    padding: 0 12px 32px;
+}
+
+/* ============================================================
+   Books admin
+   ============================================================ */
+.breadcrumb {
+    font-size: 13px;
+    color: var(--color-ink-muted);
+    margin: 0 0 12px;
+}
+
+.generate-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+
+.generate-bar .custom-button {
+    background: var(--color-primary);
+    color: #fff;
+    border-radius: var(--radius-pill);
+    padding: 8px 20px;
+    font-weight: 600;
+    box-shadow: var(--shadow-1);
+    transition: background 0.15s var(--ease-standard), transform var(--ease-bounce) 0.2s;
+}
+
+.generate-bar .custom-button:hover:not(:disabled) {
+    background: var(--color-primary-strong);
+    transform: translateY(-1px);
+}
+
+.generate-bar .custom-button:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+.pdf-links a {
+    color: var(--color-primary-strong);
+    text-decoration: underline;
+    text-decoration-color: var(--color-primary-soft);
+    text-underline-offset: 2px;
+    margin-right: 12px;
+    font-size: 14px;
+}
+
+.generation-error {
+    color: var(--color-coral);
+    font-size: 14px;
+}
+
+.workspace-layout {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+.file-tree {
+    flex: 0 0 260px;
+    background: var(--color-surface);
+    border-radius: var(--radius-l);
+    box-shadow: var(--shadow-1);
+    padding: 8px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.tree-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.tree-list .tree-list {
+    padding-left: 16px;
+}
+
+.tree-list li[draggable="true"] {
+    cursor: grab;
+}
+
+.tree-list li[draggable="true"]:active {
+    cursor: grabbing;
+}
+
+.tree-toggle,
+.tree-file {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 6px 8px;
+    border-radius: var(--radius-s);
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--color-ink);
+    cursor: pointer;
+    transition: background 0.15s var(--ease-standard);
+}
+
+.tree-toggle:hover,
+.tree-file:hover {
+    background: var(--color-surface-alt);
+}
+
+.tree-toggle.active,
+.tree-file.selected {
+    background: var(--color-primary-soft);
+    color: var(--color-primary-strong);
+    font-weight: 600;
+}
+
+.tree-error {
+    color: var(--color-coral);
+    font-size: 13px;
+    padding: 4px 8px;
+}
+
+.editor-panel {
+    flex: 1;
+    min-width: 0;
+}
+
+.status-line {
+    font-size: 13px;
+    margin: 0 0 8px;
+    min-height: 1.2em;
+}
+
+.status-line.saving {
+    color: var(--color-ink-muted);
+}
+
+.status-line.saved {
+    color: var(--color-mint);
+}
+
+.status-line.error {
+    color: var(--color-coral);
+}
+
+.content-error {
+    color: var(--color-coral);
+}
+
+.editor-columns {
+    display: flex;
+    gap: 16px;
+    height: 75vh;
+}
+
+.editor-source,
+.editor-preview {
+    flex: 1;
+    height: 100%;
+    border-radius: var(--radius-m);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-1);
+    padding: 16px;
+    overflow: auto;
+}
+
+.editor-source {
+    font-family: "SFMono-Regular", Consolas, monospace;
+    font-size: 13px;
+    line-height: 1.5;
+    border: none;
+    resize: none;
+    white-space: pre-wrap;
+}
+
+.editor-source:focus {
+    outline: 2px solid var(--color-primary-soft);
+}
+
+.editor-preview :first-child {
+    margin-top: 0;
+}
+
+@media (max-width: 900px) {
+    .workspace-layout {
+        flex-direction: column;
+    }
+
+    .file-tree {
+        flex: 1 1 auto;
+        width: 100%;
+        max-height: none;
+    }
+
+    .editor-columns {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .editor-source,
+    .editor-preview {
+        height: 50vh;
+    }
+}

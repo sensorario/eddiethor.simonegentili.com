@@ -8,11 +8,13 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "book": "node scripts/build-book.mjs"
+    "book": "node scripts/build-book.mjs",
+    "book-server": "php -S 127.0.0.1:8090 scripts/local-server.php"
   },
   "dependencies": {
     "@sensorario/sg-components": "^0.0.68",
     "js-yaml": "^5.2.1",
+    "marked": "^18.0.7",
     "react": "^19.2.7",
     "react-dom": "^19.2.7"
   },

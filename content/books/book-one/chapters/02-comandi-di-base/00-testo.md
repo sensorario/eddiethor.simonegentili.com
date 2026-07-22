@@ -13,3 +13,5 @@ git log --oneline
 
 Una volta presi confidenza con questi quattro comandi, il resto del
 flusso di lavoro (branch, merge, remote) diventa molto più naturale.
+
+E questo è il testo salvato.
