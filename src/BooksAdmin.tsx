@@ -125,6 +125,9 @@ export function BooksAdmin() {
     const [loadError, setLoadError] = useState<string | null>(null);
     const [states, setStates] = useState<Record<string, GenerationState>>({});
 
+    const [showSidebar, setShowSidebar] = useState(true);
+    const [showPreview, setShowPreview] = useState(true);
+
     const [expandedBooks, setExpandedBooks] = useState<Set<string>>(new Set());
     const [treesBySlug, setTreesBySlug] = useState<Record<string, TreeNode[]>>({});
     const [treeErrorsBySlug, setTreeErrorsBySlug] = useState<Record<string, string>>({});
@@ -295,29 +298,45 @@ export function BooksAdmin() {
     return (
         <div>
             {breadcrumb && <p className="breadcrumb">{breadcrumb}</p>}
-            {selectedSlug && selectedState && (
-                <div className="generate-bar">
-                    <Button
-                        label={selectedState.status === "generating" ? "Generazione in corso…" : "Genera PDF"}
-                        onClick={() => generate(selectedSlug)}
-                        disabled={selectedState.status === "generating"}
-                    />
-                    {selectedState.status === "done" && (
-                        <span className="pdf-links">
-                            {selectedState.pdfs.map((pdf) => (
-                                <a key={pdf} href={`${SERVER_URL}${pdf}`} target="_blank" rel="noreferrer">
-                                    {pdf.split("/").pop()}
-                                </a>
-                            ))}
-                        </span>
-                    )}
-                    {selectedState.status === "error" && (
-                        <span className="generation-error">Errore: {selectedState.message}</span>
-                    )}
-                </div>
-            )}
+            <div className="generate-bar">
+                <button
+                    className={`panel-toggle${showSidebar ? " active" : ""}`}
+                    onClick={() => setShowSidebar((v) => !v)}
+                    title="Mostra/nascondi sidebar"
+                >
+                    ☰
+                </button>
+                <button
+                    className={`panel-toggle${showPreview ? " active" : ""}`}
+                    onClick={() => setShowPreview((v) => !v)}
+                    title="Mostra/nascondi anteprima"
+                >
+                    ⊞
+                </button>
+                {selectedSlug && selectedState && (
+                    <>
+                        <Button
+                            label={selectedState.status === "generating" ? "Generazione in corso…" : "Genera PDF"}
+                            onClick={() => generate(selectedSlug)}
+                            disabled={selectedState.status === "generating"}
+                        />
+                        {selectedState.status === "done" && (
+                            <span className="pdf-links">
+                                {selectedState.pdfs.map((pdf) => (
+                                    <a key={pdf} href={`${SERVER_URL}${pdf}`} target="_blank" rel="noreferrer">
+                                        {pdf.split("/").pop()}
+                                    </a>
+                                ))}
+                            </span>
+                        )}
+                        {selectedState.status === "error" && (
+                            <span className="generation-error">Errore: {selectedState.message}</span>
+                        )}
+                    </>
+                )}
+            </div>
             <div className="workspace-layout">
-                <nav className="file-tree">
+                {showSidebar && (<nav className="file-tree">
                     <ul className="tree-list">
                         {books.map((book) => {
                             const expanded = expandedBooks.has(book.slug);
@@ -372,7 +391,7 @@ export function BooksAdmin() {
                             );
                         })}
                     </ul>
-                </nav>
+                </nav>)}
                 <section className="editor-panel">
                     {contentError && <p className="content-error">{contentError}</p>}
                     {fileContent !== null && (
@@ -388,10 +407,12 @@ export function BooksAdmin() {
                                     value={fileContent}
                                     onChange={(e) => handleContentChange(e.target.value)}
                                 />
-                                <div
-                                    className="editor-preview"
-                                    dangerouslySetInnerHTML={{ __html: previewHtml }}
-                                />
+                                {showPreview && (
+                                    <div
+                                        className="editor-preview"
+                                        dangerouslySetInnerHTML={{ __html: previewHtml }}
+                                    />
+                                )}
                             </div>
                         </>
                     )}

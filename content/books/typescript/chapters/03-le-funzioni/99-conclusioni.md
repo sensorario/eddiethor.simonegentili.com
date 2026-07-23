@@ -1,3 +1,3 @@
 ## Conclusioni
 
-Le funzioni tipizzate sono uno degli strumenti più immediati per rendere il codice più robusto: indicare tipo di ritorno e tipo dei parametri sposta gli errori dal runtime al compile time. Nel prossimo capitolo vedremo come organizzare il codice tra più file grazie a import ed export.
+Le funzioni in TypeScript offrono molto più che la semplice tipizzazione dei parametri e del valore di ritorno: i parametri opzionali, i default, i rest parameters, i tipi funzione e gli overload permettono di descrivere con precisione qualsiasi contratto tra chi chiama e chi implementa. Nel prossimo capitolo vedremo come organizzare il codice tra più file grazie a import ed export.

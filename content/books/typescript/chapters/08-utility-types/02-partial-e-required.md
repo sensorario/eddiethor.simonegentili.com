@@ -1,0 +1,3 @@
+## Partial<T> & Required<T>
+
+Nel capitolo precedente si è parlato di Generics. Ebbene Partial e Required sono basati proprio sui Generics. Come tante cose di TypeScript esistono solo a compile time e non ce li ritroviamo nel codice transpilato. Per farla semplice se abbiamo una certa classe Persona, possiamo definire un tipo Partial<Persona> o Required<Persona> se vogliamo che tutte le sue proprietà siano rispettivamente facoltative od obbligatorie. Un caso di utilizzo potrebbe essere quello di passare come parametro di una funzione un oggetto di tipo Required<Persona> per garantire che l'oggetto è completamente valorizzato. Ma non solo. Possono essere applicati a classi, interfacce o type alias.

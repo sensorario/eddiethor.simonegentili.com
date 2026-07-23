@@ -107,7 +107,7 @@ function runPandoc(masterFiles, outFile, extraArgs) {
     "--metadata", `title=${book.title}`,
     "--metadata", `author=${book.author}`,
     "--metadata", "lang=it",
-    "--pdf-engine=xelatex",
+    "--pdf-engine=tectonic",
     ...extraArgs,
     "-o", outFile,
   ];

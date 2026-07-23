@@ -19,7 +19,7 @@ function App() {
                     name: string | null
                 ) => setUsername(isLoggedIn ? name : null)}
             />
-            <BooksAdmin />
+            {username && <BooksAdmin />}
             <SGFooter />
         </div>
     );

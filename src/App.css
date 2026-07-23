@@ -63,7 +63,7 @@ body {
 .breadcrumb {
     font-size: 13px;
     color: var(--color-ink-muted);
-    margin: 0 0 12px;
+    margin: 16px 0 12px;
 }
 
 .generate-bar {
@@ -71,7 +71,7 @@ body {
     align-items: center;
     gap: 12px;
     flex-wrap: wrap;
-    margin-bottom: 16px;
+    margin: 16px 0;
 }
 
 .generate-bar .custom-button {
@@ -108,10 +108,34 @@ body {
     font-size: 14px;
 }
 
+.panel-toggle {
+    background: none;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-s);
+    padding: 4px 8px;
+    font-size: 16px;
+    cursor: pointer;
+    color: var(--color-ink-muted);
+    line-height: 1;
+    transition: background 0.15s var(--ease-standard), color 0.15s var(--ease-standard);
+}
+
+.panel-toggle:hover {
+    background: var(--color-surface-alt);
+    color: var(--color-ink);
+}
+
+.panel-toggle.active {
+    background: var(--color-primary-soft);
+    color: var(--color-primary-strong);
+    border-color: var(--color-primary-soft);
+}
+
 .workspace-layout {
     display: flex;
     gap: 16px;
     align-items: flex-start;
+    margin: 16px 0;
 }
 
 .file-tree {
