@@ -71,7 +71,7 @@ body {
     align-items: center;
     gap: 12px;
     flex-wrap: wrap;
-    margin-bottom: 16px;
+    margin: 16px 0;
 }
 
 .generate-bar .custom-button {
@@ -112,6 +112,7 @@ body {
     display: flex;
     gap: 16px;
     align-items: flex-start;
+    margin: 16px 0;
 }
 
 .file-tree {
