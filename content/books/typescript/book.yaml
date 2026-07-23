@@ -1,14 +1,13 @@
-title: "TypeScript in Pratica"
+title: "TypeScript"
 author: "Simone Gentili"
-isbn: "000-0-00-000005-9"
+isbn: "000-0-00-000006-0"
 backCover: >
-  Una guida pratica a TypeScript: dall'introduzione al sistema dei tipi
-  fino ai tipi di base, per chi vuole scrivere JavaScript più sicuro e
-  manutenibile.
-otherBooks:
-  - title: "PHP 9 in Pratica"
-    amazonUrl: "https://www.amazon.it/dp/PLACEHOLDER-BOOK-PHP9"
-  - title: "Python: Primi Passi"
-    amazonUrl: "https://www.amazon.it/dp/PLACEHOLDER-BOOK-PYTHON"
-  - title: "JavaScript: Primi Passi"
-    amazonUrl: "https://www.amazon.it/dp/PLACEHOLDER-BOOK-JAVASCRIPT"
+  Questo volume illustra gli argomenti principali di TypeScript: dal
+  sistema dei tipi alla programmazione ad oggetti, dai moduli ai generics
+  fino agli utility types. Pensato per chi parte quasi da zero ma
+  possiede già le basi di JavaScript, accompagna il lettore con un
+  percorso colloquiale e diretto verso lo sviluppo di applicazioni web
+  moderne con TypeScript. Non tratta ogni singolo argomento del
+  linguaggio, ma le sue basi e le ultime novità, con esempi di codice
+  pratici ad ogni passo.
+otherBooks: []
