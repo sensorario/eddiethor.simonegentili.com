@@ -6,6 +6,7 @@ import { load as loadYaml } from "js-yaml";
 const ROOT = process.cwd();
 const CONTENT_DIR = path.join(ROOT, "content");
 const RIGHTS_FILE = path.join(CONTENT_DIR, "shared", "rights.md");
+const ACKNOWLEDGMENTS_FILE = path.join(CONTENT_DIR, "shared", "acknowledgments.md");
 const LUA_FILTER = path.join(ROOT, "scripts", "pandoc", "code-to-image.lua");
 
 const slug = process.argv[2];
@@ -75,6 +76,13 @@ function renderOtherBooksFragment(otherBooks) {
   return lines.join("\n") + "\n";
 }
 
+// Raw LaTeX block: placed manually in the master file list (rather than
+// relying on pandoc's --toc, which the default template inserts before the
+// front matter) so the table of contents lands exactly where we want it.
+function renderTocFragment() {
+  return ["```{=latex}", "\\tableofcontents", "\\newpage", "```", ""].join("\n");
+}
+
 function buildMasterFileList(outDir) {
   const chaptersDir = path.join(bookDir, "chapters");
   const errors = validateBook(chaptersDir);
@@ -86,7 +94,11 @@ function buildMasterFileList(outDir) {
   const otherBooksFile = path.join(outDir, "back-matter-altri-libri.md");
   writeFileSync(otherBooksFile, renderOtherBooksFragment(book.otherBooks));
 
-  return [RIGHTS_FILE, ...collectMarkdownFiles(chaptersDir), otherBooksFile];
+  return {
+    frontMatter: [RIGHTS_FILE, ACKNOWLEDGMENTS_FILE],
+    chapters: collectMarkdownFiles(chaptersDir),
+    backMatter: [otherBooksFile],
+  };
 }
 
 function runPandoc(masterFiles, outFile, extraArgs) {
@@ -94,6 +106,7 @@ function runPandoc(masterFiles, outFile, extraArgs) {
     ...masterFiles,
     "--metadata", `title=${book.title}`,
     "--metadata", `author=${book.author}`,
+    "--metadata", "lang=it",
     "--pdf-engine=xelatex",
     ...extraArgs,
     "-o", outFile,
@@ -104,12 +117,34 @@ function runPandoc(masterFiles, outFile, extraArgs) {
 const outDir = path.join(ROOT, "build", slug);
 mkdirSync(outDir, { recursive: true });
 
-const masterFiles = buildMasterFileList(outDir);
+const { frontMatter, chapters, backMatter } = buildMasterFileList(outDir);
 
 const textPdf = path.join(outDir, `${slug}-text.pdf`);
-runPandoc(masterFiles, textPdf, ["--toc", "--toc-depth=3", "-V", "documentclass=report"]);
+runPandoc([...frontMatter, ...chapters, ...backMatter], textPdf, [
+  "--toc",
+  "--toc-depth=3",
+  "-V", "documentclass=report",
+]);
 console.log(`Built ${path.relative(ROOT, textPdf)}`);
 
+// Print edition: table of contents placed right after the front matter
+// (rights + acknowledgments), with page references, ahead of the chapters.
+const tocFile = path.join(outDir, "front-matter-toc.md");
+writeFileSync(tocFile, renderTocFragment());
+
+// KDP paperback trim size (6x9in) with the inner/outer margins from KDP's
+// interior-margin table for the 24-150 page bracket; "twoside" alternates
+// the gutter margin left/right so it always sits on the binding side.
 const imagePdf = path.join(outDir, `${slug}-image.pdf`);
-runPandoc(masterFiles, imagePdf, [`--lua-filter=${LUA_FILTER}`]);
+runPandoc([...frontMatter, tocFile, ...chapters, ...backMatter], imagePdf, [
+  `--lua-filter=${LUA_FILTER}`,
+  "-V", "classoption=twoside",
+  "-V", "geometry=paperwidth=6in",
+  "-V", "geometry=paperheight=9in",
+  "-V", "geometry=inner=0.375in",
+  "-V", "geometry=outer=0.25in",
+  "-V", "geometry=top=1in",
+  "-V", "geometry=bottom=1in",
+  "-V", "geometry=twoside",
+]);
 console.log(`Built ${path.relative(ROOT, imagePdf)}`);
